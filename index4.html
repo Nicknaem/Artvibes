@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Link Shortener</title>
+</head>
+<body>
+  <label for="long-link">Long Link:</label>
+  <input type="text" id="long-link">
+  <button type="button" id="convert-btn">Convert</button>
+  <br><br>
+  <label for="short-link">Short Link:</label>
+  <input type="text" id="short-link">
+  <br><br>
+  <script>
+    // Define the Base62 encoding characters
+    const BASE62_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    // Define the Base62 encoding function
+    function encodeBase62(num) {
+      let encoded = '';
+      do {
+        const remainder = num % 62;
+        encoded = BASE62_CHARS.charAt(remainder) + encoded;
+        num = Math.floor(num / 62);
+      } while (num > 0);
+      return encoded;
+    }
+
+    // Define the Base62 decoding function
+    function decodeBase62(encoded) {
+      let num = 0;
+      for (let i = 0; i < encoded.length; i++) {
+        num = num * 62 + BASE62_CHARS.indexOf(encoded.charAt(i));
+      }
+      return num;
+    }
+
+    // Define the short link domain
+    const SHORT_LINK_DOMAIN = 'https://example.com/';
+
+    // Define the long link input and short link output fields
+    const longLinkInput = document.querySelector('#long-link');
+    const shortLinkOutput = document.querySelector('#short-link');
+
+    // Define the convert button click event handler
+    const convertBtn = document.querySelector('#convert-btn');
+    convertBtn.addEventListener('click', () => {
+      const longLink = longLinkInput.value;
+      const num = parseInt(Math.random() * 100000000000000); // Generate a random number
+      const encoded = encodeBase62(num); // Encode the random number as Base62
+      const shortLink = `${SHORT_LINK_DOMAIN}${encoded}`; // Combine with the short link domain
+      shortLinkOutput.value = shortLink;
+    });
+
+    // Define the short link input event handler
+    shortLinkOutput.addEventListener('input', () => {
+      const shortLink = shortLinkOutput.value;
+      const encoded = shortLink.replace(SHORT_LINK_DOMAIN, ''); // Remove the short link domain
+      const num = decodeBase62(encoded); // Decode the encoded string back to a number
+      const longLink = getLongLink(num); // Use the number to get the original long link
+      longLinkInput.value = longLink;
+    });
+
+    // Define a function to get the original long link from a number
+    function getLongLink(num) {
+      // Implement your own function to get the original long link from the number
+      // This function should return the original long link associated with the given number
+    }
+  </script>
+</body>
+</html>

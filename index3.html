@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Link Shortener</title>
+</head>
+<body>
+  <label for="long-link">Long Link:</label>
+  <input type="text" id="long-link">
+  <button type="button" id="convert-btn">Convert</button>
+  <br><br>
+  <label for="short-link">Short Link:</label>
+  <input type="text" id="short-link">
+  <br><br>
+  <script>
+    function generateShortLink(longLink) {
+      // Encode the long link as base64 and remove any padding characters
+      const encoded = btoa(longLink).replace(/=/g, '');
+      // Reverse the encoded string
+      const reversed = encoded.split('').reverse().join('');
+      return `https://example.com/${reversed}`;
+    }
+
+    function getLongLink(shortLink) {
+      // Extract the reversed encoded string from the short link
+      const reversed = shortLink.split('/').pop();
+      // Reverse the encoded string again to get the original encoded string
+      const encoded = reversed.split('').reverse().join('');
+      // Decode the original encoded string as base64 to get the original long link
+      const longLink = atob(encoded);
+      return longLink;
+    }
+
+    const convertBtn = document.querySelector('#convert-btn');
+    convertBtn.addEventListener('click', () => {
+      const longLink = document.querySelector('#long-link').value;
+      const shortLink = generateShortLink(longLink);
+      document.querySelector('#short-link').value = shortLink;
+    });
+
+    const shortLinkInput = document.querySelector('#short-link');
+    shortLinkInput.addEventListener('input', () => {
+      const shortLink = shortLinkInput.value;
+      const longLink = getLongLink(shortLink);
+      document.querySelector('#long-link').value = longLink;
+    });
+  </script>
+</body>
+</html>

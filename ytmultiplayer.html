@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        let list = `
+            https://www.youtube.com/watch?v=HeCxiz_cJcg
+            https://www.youtube.com/watch?v=fzSskwpLiWY
+            https://www.youtube.com/watch?v=TAGCf_QzbBw
+            https://www.youtube.com/watch?v=Bwtu-NhXI5Y
+            https://www.youtube.com/watch?v=hsRr3S1yFt4
+            https://www.youtube.com/watch?v=eTlXD2S_R1A
+            https://www.youtube.com/watch?v=vWdlOVGygCQ
+            https://www.youtube.com/watch?v=sZ6bEY2S2WI
+            https://www.youtube.com/watch?v=jyP9id7An3w
+            https://www.youtube.com/watch?v=UntlNGiolTA
+            https://www.youtube.com/watch?v=LRQwB0EjPHo
+            https://www.youtube.com/watch?v=s7sARECpDKc
+            https://www.youtube.com/watch?v=F1WQOoOwsLc
+            https://www.youtube.com/watch?v=8r0p5C208dk
+            https://www.youtube.com/watch?v=aJxoRIjyNlw
+            https://www.youtube.com/watch?v=ryP0s-VFA-w
+            https://www.youtube.com/watch?v=bZCsaVOtTHI
+            https://www.youtube.com/watch?v=9XwlAiFMsSA
+            https://www.youtube.com/watch?v=2UKw9aheG3Y
+            https://www.youtube.com/watch?v=GtJcwdNH0PI
+            https://www.youtube.com/watch?v=zfxBIGMmy4U
+            https://www.youtube.com/watch?v=yE48XS2Rn0A
+            https://www.youtube.com/watch?v=X24P64tgbd8
+            https://www.youtube.com/watch?v=eg20PkH8SIw
+            https://www.youtube.com/watch?v=9LtQ8qpiiLI
+        `;
+        list = list.split('\n');
+        let html = list.map(link=>{
+            return `<iframe id="player" width="160" height="90" src="https://www.youtube.com/embed/${link.split('=')[1]}?controls=1&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&loop=0&start=0&enablejsapi=1" frameborder="0"></iframe>`
+        }).join('');
+        console.log(html)
+        document.body.innerHTML = html;
+    </script>
+</body>
+</html>

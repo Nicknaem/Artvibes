@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Link Shortener</title>
+</head>
+<body>
+  <label for="long-link">Long Link:</label>
+  <input type="text" id="long-link">
+  <button type="button" id="convert-btn">Convert</button>
+  <br><br>
+  <label for="short-link">Short Link:</label>
+  <input type="text" id="short-link">
+  <br><br>
+  <script>
+    function generateShortLink(longLink) {
+      // Generate a unique short code for the long link using a hash function
+      const hash = hashString(longLink);
+      const shortCode = hash.slice(0, 8); // Use the first 8 characters of the hash as the short code
+      return `https://example.com/${shortCode}`;
+    }
+
+    function hashString(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0; // Convert to 32bit integer
+      }
+      return hash.toString(16);
+    }
+
+    function getLongLink(shortLink) {
+      // Extract the short code from the short link
+      const shortCode = shortLink.split('/').pop();
+      // Generate the original long link from the short code
+      const hash = `00000000${shortCode}`.slice(-8); // Pad the short code with leading zeros
+      const longLink = unhashString(hash);
+      return longLink;
+    }
+
+    function unhashString(hash) {
+      let str = '';
+      for (let i = 0; i < hash.length; i += 2) {
+        const code = parseInt(hash.slice(i, i + 2), 16);
+        str += String.fromCharCode(code);
+      }
+      return str;
+    }
+
+    const convertBtn = document.querySelector('#convert-btn');
+    convertBtn.addEventListener('click', () => {
+      const longLink = document.querySelector('#long-link').value;
+      const shortLink = generateShortLink(longLink);
+      document.querySelector('#short-link').value = shortLink;
+    });
+
+    const shortLinkInput = document.querySelector('#short-link');
+    shortLinkInput.addEventListener('input', () => {
+      const shortLink = shortLinkInput.value;
+      const longLink = getLongLink(shortLink);
+      document.querySelector('#long-link').value = longLink;
+    });
+  </script>
+</body>
+</html>
