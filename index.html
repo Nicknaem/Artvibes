@@ -4,8 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artvibes</title>
-    <meta property="og:title" content="Artvibes 🎨🎷">
-    <meta property="og:description" content="Feel the Music with Art ❤">
+    <meta property="og:title" content="Artvibes">
+    <meta property="og:description" content="Feel the Music with Art">
     <meta property="og:image" content="https://i.pinimg.com/originals/31/3a/6d/313a6defdaba61f8008ee0fa8f6e1c1b.jpg">
     <meta property="og:url" content="https://nicknaem.github.io/Artvibes/">
     <meta property="og:image:width" content="1200">
@@ -160,6 +160,7 @@
                 <span class="bar bar-2"></span>				
             </div>
             <div id="progress"></div>
+            <div class="loading">Loading</div>
             <!--<button onclick="createArtvibe()">create artvibe</button>-->
         `;
         if(!link1){
@@ -218,6 +219,11 @@
             duration = player.getDuration();
             // currentTime = playPause.getCurrentTime();
             // timeLeft = duration - currentTime;
+            player.playVideo();
+            setTimeout(() => {
+                player.pauseVideo();
+            }, 100);
+            document.querySelector('.loading').remove();
             progressInterval = setInterval(updateProgress, 100);
         }
 
