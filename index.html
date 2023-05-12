@@ -4,8 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artvibes</title>
-    <meta property="og:title" content="Artvibess text goes here this should be long line to test">
-    <meta property="og:description" content="Feel the Art with music">
+    <meta property="og:title" content="Artvibes 🎨🎷">
+    <meta property="og:description" content="Feel the Music with Art ❤">
     <meta property="og:image" content="https://i.pinimg.com/originals/31/3a/6d/313a6defdaba61f8008ee0fa8f6e1c1b.jpg">
     <meta property="og:url" content="https://nicknaem.github.io/Artvibes/">
     <meta property="og:image:width" content="1200">
@@ -42,33 +42,35 @@
         qrCodeContainer.style.right = '0';
 
         // Append the QR code container to the document
-        document.body.appendChild(qrCodeContainer);
+        // document.body.appendChild(qrCodeContainer);
     }
 </script>
 <style>
     body{
         margin: 0 30px;
         background-color: #080b16;
+        display: flex;
+        justify-content: center;
     }
 
     .music-container{
+
+    }
+
+    .artvibe-preview{
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        width: 360px;
+        gap: 15px;
     }
-
-    #art{
-        margin-top: 50px;
-        border-radius: 20px;
-    }
-
 
     .btn {
         position: relative;
         width: 40px;
         height: 40px;
-        border: white 3px solid;
+        border: rgba(255, 214, 167, 0.9) 5px solid;
         border-radius: 50%;
         cursor: pointer;
         transition: border 0.1s ease-in-out;
@@ -79,10 +81,10 @@
 		position: absolute;
 		top: 10px;
 		left: 0;
-		width: 3px;
+		width: 5px;
 		height: 20px;
 		border-radius: 3px;
-		background-color: white;
+		background-color: rgba(255, 214, 167, 0.9);
 		transform-origin: center;
 		transition: transform 0.2s ease-in-out, background 0.1s ease-in-out;
 	}
@@ -102,47 +104,81 @@
         transform: translateX(20px) translateY(5px) rotate(-125deg);
     }
 
+    .art-image{
+        border-radius: 15px;
+    }
     #progress{
         height: 6px;
         border-radius: 3px;
-        background-color: red;
+        background-color: rgba(255, 214, 167, 0.9);
     }
 </style>
 <body>
     <div class="music-container">
         <!-- <iframe id="art" src="https://assets.pinterest.com/ext/embed.html?id=55802482874299806" height="400" width="300" frameborder="0" scrolling="no"></iframe> -->
         <!-- <iframe id="player" width="0" height="0" src="https://www.youtube.com/embed/8UlayxF0XMk?controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&loop=0&start=0&enablejsapi=1" title="YouTube video player" frameborder="0"></iframe> -->
-        <img src="https://i.pinimg.com/originals/eb/4e/f4/eb4ef4e3469a23926236881084872902.png" width="360px" height="400px" alt="">
         <div id="player"></div>
-        <input type="text" placeholder="Art">
-        <input type="text" placeholder="Music">
-        <button onclick="share()">share</button>
-        <div>
-            <div class="btn play" onclick="playPause(this)">
-                <span class="bar bar-1"></span>
-                <span class="bar bar-2"></span>				
-            </div>
+
+        <div class="create-artvibe">
+ 
         </div>
-        <div id="progress"></div>
+        
+        <div class="artvibe-preview">
+        
+        </div>
     </div>
     <script>
         var player
         var duration;
+        var currentTime;
+        var timeLeft;
         var progressInterval;
 
         const urlParams = new URLSearchParams(window.location.search);
         const queryString = window.location.search;
         const params = queryString.substring(1).split('&');
 
-        const link1 = decodeURIComponent(params[0]);
-        const link2 = decodeURIComponent(params[1]);
+        // const link1 = decodeURIComponent(params[0]);
+        // const link2 = decodeURIComponent(params[1]);
         
+        let link1='eimgRedLkkU';
+        let link2='https://i.pinimg.com/originals/31/3a/6d/313a6defdaba61f8008ee0fa8f6e1c1b.jpg';
+        let startTime=15;
+
+        let createHtml = `
+            <input type="text" placeholder="Art Link">
+            <input type="text" placeholder="Music Link">
+            <button>copy</button>
+            <button>Qr Code</button>
+            <button onclick="share()">share</button>
+        `;
+
+        let artvibeHtml = `
+            <img class='art-image' src="${link2}" width="360px">
+            <div class="btn play" onclick="playPause(this)">
+                <span class="bar bar-1"></span>
+                <span class="bar bar-2"></span>				
+            </div>
+            <div id="progress"></div>
+            <!--<button onclick="createArtvibe()">create artvibe</button>-->
+        `;
+        if(!link1){
+            document.querySelector('.create-artvibe').insertAdjacentHTML('beforeend', createHtml)
+        }else{
+            document.querySelector('.artvibe-preview').insertAdjacentHTML('beforeend', artvibeHtml)
+        }
+        
+        function createArtvibe(){
+            //remove artvibe preview
+            //show create inputs
+            //maybe just hide with display none
+        }
         // document.getElementById('art').src='https://assets.pinterest.com/ext/embed.html?id='+link2;
         function share(){
             navigator.share({
                 title: 'text title',
                 text: "text description",
-                url: 'https://nicknaem.github.io/Artvibes/?href'
+                url: 'https://nicknaem.github.io/Artvibes/?link'
             })
             .then(function() {
                 console.log("Share successful");
@@ -151,7 +187,11 @@
                 console.error("Error sharing:", error);
             });
         }
+
+
         function onYouTubeIframeAPIReady(){
+            let playerDiv = document.getElementById("player");
+            playerDiv.style.display = "none";
             player = new YT.Player('player', {
                 videoId: link1,
                 width:0,
@@ -164,7 +204,7 @@
                     'rel':0,
                     'iv_load_policy':3,
                     'loop':0,
-                    'start':0,
+                    'start':startTime,
                     'enablejsapi':1,
                     'autoplay': 0,
                 },
@@ -176,12 +216,14 @@
 
         function onPlayerReady(event) {
             duration = player.getDuration();
+            // currentTime = playPause.getCurrentTime();
+            // timeLeft = duration - currentTime;
             progressInterval = setInterval(updateProgress, 100);
         }
 
         function updateProgress() {
             var currentTime = player.getCurrentTime();
-            var percentage = (currentTime / duration) * 1000;
+            var percentage = (currentTime / duration) * 100;
             document.getElementById('progress').style.width = percentage + '%';
         }
 
