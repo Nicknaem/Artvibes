@@ -3,7 +3,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Artvibes</title>
+    <meta property="og:title" content="Artvibess">
+    <meta property="og:description" content="Feel the Art with music">
+    <meta property="og:image" content="https://i.pinimg.com/originals/31/3a/6d/313a6defdaba61f8008ee0fa8f6e1c1b.jpg">
+    <meta property="og:url" content="https://nicknaem.github.io/Artvibes/">
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <script src="./qrcode.js" onload="onQRCodeLoad()" defer></script>
@@ -137,9 +141,9 @@
         }
         function share(){
             navigator.share({
-                title: 'title I want',
-                text: "Check out this link!",
-                url: 'https://www.some.com//href'
+                title: 'text title',
+                text: "text description",
+                url: 'https://nicknaem.github.io/Artvibes/?href'
             })
             .then(function() {
                 console.log("Share successful");
