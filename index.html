@@ -14,10 +14,10 @@
             console.error('Failed to load QRCode library');
         }
         // Get the current local address and port
-    //   const localAddress = window.location.hostname;
-    //   const localPort = window.location.port || '80';
-    //   const localUrl = `http://${localAddress}:${localPort}`;
-    let localUrl = window.location.href;
+        //   const localAddress = window.location.hostname;
+        //   const localPort = window.location.port || '80';
+        //   const localUrl = `http://${localAddress}:${localPort}`;
+        let localUrl = window.location.href;
 
         // Create a new QR code instance
         const qrCodeContainer = document.createElement('div');
@@ -40,7 +40,7 @@
     }
 </script>
 <style>
-     body{
+    body{
         margin: 0 30px;
         background-color: #080b16;
     }
@@ -59,14 +59,14 @@
 
 
     .btn {
-	position: relative;
-	width: 40px;
-	height: 40px;
-	border: white 3px solid;
-	border-radius: 50%;
-	cursor: pointer;
-	transition: border 0.1s ease-in-out;
-}
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border: white 3px solid;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: border 0.1s ease-in-out;
+    }
 	
 	.bar {
 		display: inline-block;
@@ -96,14 +96,22 @@
         transform: translateX(20px) translateY(5px) rotate(-125deg);
     }
 
+    #progress{
+        height: 6px;
+        border-radius: 3px;
+        background-color: red;
+    }
 </style>
 <body>
     <div class="music-container">
-        <iframe id="art" src="https://assets.pinterest.com/ext/embed.html?id=55802482874299806" height="400" width="300" frameborder="0" scrolling="no"></iframe>
-        <iframe id="player" width="0" height="0" src="https://www.youtube.com/embed/8UlayxF0XMk?controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&loop=0&start=0&enablejsapi=1" title="YouTube video player" frameborder="0"></iframe>
+        <!-- <iframe id="art" src="https://assets.pinterest.com/ext/embed.html?id=55802482874299806" height="400" width="300" frameborder="0" scrolling="no"></iframe> -->
+        <!-- <iframe id="player" width="0" height="0" src="https://www.youtube.com/embed/8UlayxF0XMk?controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&loop=0&start=0&enablejsapi=1" title="YouTube video player" frameborder="0"></iframe> -->
+        <img src="https://i.pinimg.com/originals/eb/4e/f4/eb4ef4e3469a23926236881084872902.png" width="360px" height="400px" alt="">
+        <div id="player"></div>
+        <input type="text" placeholder="Art">
+        <input type="text" placeholder="Music">
+        <button onclick="share()">share</button>
         <div>
-            <!-- <button onclick="playMusic(this)">Play</button>
-            <button onclick="pauseMusic(this)">Pause</button> -->
             <div class="btn play" onclick="playPause(this)">
                 <span class="bar bar-1"></span>
                 <span class="bar bar-2"></span>				
@@ -111,93 +119,55 @@
         </div>
         <div id="progress"></div>
     </div>
-    <style>
-        #progress{
-            height: 6px;
-            border-radius: 3px;
-            background-color: red;
-        }
-    </style>
-    <!-- <script>
-        // Initialize an array to store the long links
-        const longLinks = [];
-
-        // Generate a short link for a given long link
-        function generateShortLink(longLink) {
-        const index = longLinks.length; // Use the current length of the array as the index
-        const shortLink = toBase62(index); // Convert the index to a unique short link using a base-62 encoding function
-        longLinks.push(longLink); // Add the long link to the array
-        return shortLink;
-        }
-
-        // Get the long link corresponding to a given short link
-        function getLongLink(shortLink) {
-            const index = fromBase62(shortLink); // Convert the short link to its corresponding index in the array
-            return longLinks[index]; // Return the long link at that index
-        }
-
-        // Helper function to convert a number to a base-62 string
-        function toBase62(num) {
-        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let result = '';
-        while (num > 0) {
-            result = chars[num % 62] + result;
-            num = Math.floor(num / 62);
-        }
-        return result || '0'; // Handle the case when num = 0
-        }
-
-        // Helper function to convert a base-62 string to a number
-        function fromBase62(str) {
-        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let result = 0;
-        for (let i = 0; i < str.length; i++) {
-            const char = str.charAt(i);
-            const digit = chars.indexOf(char);
-            result = result * 62 + digit;
-        }
-        return result;
-        }
-
-        // const longLink = 'https://www.example.com/very/long/link/to/a/page.html';
-        // const shortLink = generateShortLink(longLink);
-        // console.log(shortLink); // e.g. '1LbS7v'
-
-        let shortLink = '1LbS7v';
-        let longLink = getLongLink(shortLink);
-        console.log(longLink); // 'https://www.example.com/very/long/link/to/a/page.html'
-
-
-    </script> -->
     <script>
         var player
         var duration;
         var progressInterval;
+
         const urlParams = new URLSearchParams(window.location.search);
         const queryString = window.location.search;
         const params = queryString.substring(1).split('&');
+
         const link1 = decodeURIComponent(params[0]);
         const link2 = decodeURIComponent(params[1]);
-        document.getElementById('art').src='https://assets.pinterest.com/ext/embed.html?id='+link2;
-
+        
+        // document.getElementById('art').src='https://assets.pinterest.com/ext/embed.html?id='+link2;
+        if (navigator.share) {
+            document.body.style.backgroundColor = 'red'
+        }
+        function share(){
+            navigator.share({
+                title: 'title I want',
+                text: "Check out this link!",
+                url: 'https://www.some.com//href'
+            })
+            .then(function() {
+                console.log("Share successful");
+            })
+            .catch(function(error) {
+                console.error("Error sharing:", error);
+            });
+        }
         function onYouTubeIframeAPIReady(){
             player = new YT.Player('player', {
                 videoId: link1,
+                playerVars: { 
+                    'controls': 0,
+                    'disablekb': 1,
+                    'modestbranding':1,
+                    'showinfo': 0,
+                    'rel':0,
+                    'iv_load_policy':3,
+                    'loop':0,
+                    'start':0,
+                    'enablejsapi':1,
+                    'autoplay': 0,
+                },
                 events: {
                     'onReady': onPlayerReady
                 }
             });
         }
-
-        // function getVideoIdFromUrl(url) {
-        //     var videoId;
-        //     var match = url.match(/^[^v]+v.(.{11}).*/);
-        //     if (match) {
-        //         videoId = match[1];
-        //     }
-        //     return videoId;
-        // }
-
 
         function onPlayerReady(event) {
             duration = player.getDuration();
@@ -219,13 +189,7 @@
                 player.pauseVideo();
             }
         }
-        // function playMusic(){
-        //     player.playVideo();
-        // }
-        // function pauseMusic(){
-        //     player.pauseVideo();
-        // }
 
-        </script>
+    </script>
 </body>
 </html>

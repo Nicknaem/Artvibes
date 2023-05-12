@@ -129,7 +129,6 @@
         const link1 = decodeURIComponent(params[0]);
         const link2 = decodeURIComponent(params[1]);
         document.getElementById('art').src='https://assets.pinterest.com/ext/embed.html?id='+link2;
-
         // function onYouTubeIframeAPIReady(){
         //     player = new YT.Player('player', {
         //         videoId: link1,
@@ -138,9 +137,7 @@
         //         }
         //     });
         // }
-
         function onYouTubeIframeAPIReady(){
-
             player = new YT.Player('player', {
                 videoId: link1,
                 events: {
